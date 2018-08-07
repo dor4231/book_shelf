@@ -9,22 +9,24 @@ class BookShelve extends Component {
         return (
             <div className="list-books">
                 <div className="list-books-title">
-                <h1>MyReads - From Comp</h1>
+                    <h1>MyReads</h1>
                 </div>
                 <div className="list-books-content">
                     <div>
-                        {this.props.shelves.map((shelve) => (
-                            <div className="bookshelf" key={shelve.name}>
-                                <h2 className="bookshelf-title">{shelve.name}</h2>
+                        {['currentlyReading', 'wantToRead', 'read'].map((shelve) => (
+                            <div className="bookshelf" key={shelve}>
+                                <h2 className="bookshelf-title">{this.props.shelves[shelve].name}</h2>
                                 <div className="bookshelf-books">
                                 <ol className="books-grid">    
-                                    {shelve.books.map((book) => (
+                                    {this.props.shelves[shelve].books.map((book) => (
                                         <li key={book.title}>
                                             <div className="book">
                                                 <div className="book-top">
                                                     <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: `url("${book.cover}")` }}></div>
                                                     <div className="book-shelf-changer">
-                                                    <select>
+                                                    <select 
+                                                      value={shelve}
+                                                      onChange={(e) => {this.props.onSelectShelve(book, e.target.value, shelve)}}>
                                                         <option value="move" disabled>Move to...</option>
                                                         <option value="currentlyReading">Currently Reading</option>
                                                         <option value="wantToRead">Want to Read</option>

@@ -6,8 +6,8 @@ import './App.css'
 
 class BooksApp extends React.Component {
   state = {
-    shelves: [
-      {
+    shelves: {
+      currentlyReading: {
         name: "Currently Reading",
         books:[
           {
@@ -22,7 +22,7 @@ class BooksApp extends React.Component {
           }
         ]
       },
-      {
+      wantToRead: {
         name: "Want To Read",
         books:[
           {
@@ -37,7 +37,7 @@ class BooksApp extends React.Component {
           }
         ]
       },
-      {
+      read: {
         name: "Read",
         books:[
           {
@@ -57,7 +57,7 @@ class BooksApp extends React.Component {
           }
         ]
       }
-    ],
+    },
     /**
      * TODO: Instead of using this state variable to keep track of which page
      * we're on, use the URL in the browser's address bar. This will ensure that
@@ -67,12 +67,22 @@ class BooksApp extends React.Component {
     showSearchPage: false
   }
 
+  moveShelve = (book, value, shelve) => {
+    const shelves = this.state.shelves
+    const index = shelves[shelve].books.findIndex(x => x.title === book.title);
+
+    shelves[shelve].books.splice(index, 1)
+    shelves[value].books.push(book)
+
+    this.setState({ shelves })
+  }
+
   render() {
     return (
       <div className="app">
         <Route
           exact path="/"
-          render={() => (<BookShelve shelves={this.state.shelves}/>)} 
+          render={() => (<BookShelve shelves={this.state.shelves} onSelectShelve={this.moveShelve}/>)} 
         />
 
         <Route 
