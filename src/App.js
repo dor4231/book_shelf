@@ -5,7 +5,7 @@ import './App.css'
 
 class BooksApp extends React.Component {
   state = {
-    shelves =[
+    shelves: [
       {
         shelveName: "currently-reading",
         books:[
