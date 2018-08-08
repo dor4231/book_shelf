@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Route } from 'react-router-dom'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import BookShelve from './BookShelve'
 import './App.css'
 
@@ -75,6 +75,20 @@ class BooksApp extends React.Component {
     shelves[value].books.push(book)
 
     this.setState({ shelves })
+  }
+
+  componentDidMount() {
+    BooksAPI.getAll().then((books) => {
+      const state = 
+      books.map((book) => {
+
+        console.log(book);
+      })
+    });
+    
+    BooksAPI.get("evuwdDLfAyYC").then(
+      (res) => console.log(res)
+    )
   }
 
   render() {
