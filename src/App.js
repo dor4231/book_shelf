@@ -6,6 +6,7 @@ import './App.css'
 
 class BooksApp extends React.Component {
   state = {
+    books: [],
     shelves: {
       currentlyReading: {
         name: "Currently Reading",
@@ -79,11 +80,12 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      const state = 
+      this.setState({ books })
       books.map((book) => {
-
         console.log(book);
       })
+
+      console.log("Books:", this.state.books)
     });
     
     BooksAPI.get("evuwdDLfAyYC").then(
@@ -96,7 +98,7 @@ class BooksApp extends React.Component {
       <div className="app">
         <Route
           exact path="/"
-          render={() => (<BookShelve shelves={this.state.shelves} onSelectShelve={this.moveShelve}/>)} 
+          render={() => (<BookShelve books={this.state.books} shelves={this.state.shelves} onSelectShelve={this.moveShelve}/>)} 
         />
 
         <Route 
