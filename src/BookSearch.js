@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import escapeRegExp from 'escape-string-regexp'
 
 import * as BooksAPI from './BooksAPI'
 
@@ -12,8 +13,7 @@ class BookSearch extends Component {
         if (query === '') {
             this.setState({ books: [] })
         } else {
-            BooksAPI.search(query).then((books) => {
-                console.log(books);
+            BooksAPI.search(escapeRegExp(query)).then((books) => {
                 if (books.error) {
                     this.setState({ books: [] })
                 }else if (books) {
@@ -51,10 +51,13 @@ class BookSearch extends Component {
                         <li key={book.id}>
                             <div className="book">
                                 <div className="book-top">
-                                    <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
+                                    <div className="book-cover" 
+                                         style={{ width: 128, 
+                                                  height: 188, 
+                                                  backgroundImage: ("imageLinks" in book) ? `url("${book.imageLinks.thumbnail}")` : 'none' }}></div>
                                         <div className="book-shelf-changer">
                                             <select 
-                                            value={book.shelf}
+                                            value={(book.shelf || 'none')}
                                             onChange={(e) => {this.props.onSelectShelve(book, e.target.value)}}>
                                             <option value="move" disabled>Move to...</option>
                                             <option value="currentlyReading">Currently Reading</option>
@@ -65,7 +68,7 @@ class BookSearch extends Component {
                                     </div>
                                 </div>
                                 <div className="book-title">{book.title}</div>
-                                <div className="book-authors">{book.authors}</div>
+                                <div className="book-authors">{("authors" in book) ? book.authors: 'Not Specified'}</div>
                             </div>
                         </li>
                     ))}

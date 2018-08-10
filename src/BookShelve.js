@@ -22,7 +22,11 @@ class BookShelve extends Component {
                                             <li key={book.id}>
                                                 <div className="book">
                                                     <div className="book-top">
-                                                        <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
+                                                        <div className="book-cover" 
+                                                             style={{ width: 128, 
+                                                                      height: 188, 
+                                                                      backgroundImage: ("imageLinks" in book) ? `url("${book.imageLinks.thumbnail}")` : 'none' }}>
+                                                        </div>
                                                         <div className="book-shelf-changer">
                                                         <select 
                                                         value={shelf}
@@ -36,7 +40,7 @@ class BookShelve extends Component {
                                                         </div>
                                                     </div>
                                                     <div className="book-title">{book.title}</div>
-                                                    <div className="book-authors">{book.authors}</div>
+                                                    <div className="book-authors">{("authors" in book) ? book.authors: 'Not Specified'}</div>
                                                 </div>
                                             </li>
                                         ))}
