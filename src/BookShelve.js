@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom'
 
 
 class BookShelve extends Component {
-    
-
     render() {
         return (
             <div className="list-books">
