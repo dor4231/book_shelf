@@ -9,11 +9,21 @@ class BookSearch extends Component {
         books: []
     }
 
+    isBookAlreadyOnAShelf = (searchBook) => {
+        const book = this.props.books.filter((shelfBook) => (shelfBook.id === searchBook.id))
+        if (book.length === 1) {
+            return book[0].shelf
+        } else {
+            return false
+        }
+    }
+
     searchInAPI = (query) => {
         if (query === '') {
             this.setState({ books: [] })
         } else {
-            BooksAPI.search(escapeRegExp(query)).then((books) => {
+            console.log(escapeRegExp(query))
+            BooksAPI.search(escapeRegExp(query).trim()).then((books) => {
                 if (books.error) {
                     this.setState({ books: [] })
                 }else if (books) {
@@ -33,16 +43,7 @@ class BookSearch extends Component {
               <div className="search-books-bar">
                 <Link className="close-search" to='/'>Close</Link>
                 <div className="search-books-input-wrapper">
-                  {/*
-                    NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                    You can find these search terms here:
-                    https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                    However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                    you don't find a specific author or title. Every search is limited by search terms.
-                  */}
                   <input type="text" placeholder="Search by title or author" onChange={(e) => this.searchInAPI(e.target.value)}/>
-
                 </div>
               </div>
               <div className="search-books-results">
@@ -57,8 +58,8 @@ class BookSearch extends Component {
                                                   backgroundImage: ("imageLinks" in book) ? `url("${book.imageLinks.thumbnail}")` : 'none' }}></div>
                                         <div className="book-shelf-changer">
                                             <select 
-                                            value={(book.shelf || 'none')}
-                                            onChange={(e) => {this.props.onSelectShelve(book, e.target.value)}}>
+                                            value={(this.isBookAlreadyOnAShelf(book) || 'none')}
+                                            onChange={(e) => {this.props.onSelectShelve(book, e.target.value); this.render()}}>
                                             <option value="move" disabled>Move to...</option>
                                             <option value="currentlyReading">Currently Reading</option>
                                             <option value="wantToRead">Want to Read</option>
