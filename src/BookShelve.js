@@ -19,14 +19,14 @@ class BookShelve extends Component {
                                 <div className="bookshelf-books">
                                     <ol className="books-grid">    
                                         {this.props.books.filter((book) => (book.shelf === shelf)).map((book) => (
-                                            <li key={book.title}>
+                                            <li key={book.id}>
                                                 <div className="book">
                                                     <div className="book-top">
                                                         <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
                                                         <div className="book-shelf-changer">
                                                         <select 
                                                         value={shelf}
-                                                        onChange={(e) => {this.props.onSelectShelve(book, e.target.value, shelf)}}>
+                                                        onChange={(e) => {this.props.onSelectShelve(book, e.target.value)}}>
                                                             <option value="move" disabled>Move to...</option>
                                                             <option value="currentlyReading">Currently Reading</option>
                                                             <option value="wantToRead">Want to Read</option>
