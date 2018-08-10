@@ -15,14 +15,17 @@ class BooksApp extends React.Component {
     }
   }
 
-  moveShelve = (book, value, shelf) => {
+  moveShelf = (book, value) => {
     const books = this.state.books
     const index = books.findIndex(x => x.title === book.title);
 
-    books[index].shelf = value
+    if (index !== -1)
+      books[index].shelf = value;
+    else {
+      books.push(book)
+    }
 
     BooksAPI.update(book, value)
-
     this.setState({ books })
   }
 
@@ -37,12 +40,13 @@ class BooksApp extends React.Component {
       <div className="app">
         <Route
           exact path="/"
-          render={() => (<BookShelve books={this.state.books} shelves={this.state.shelves} onSelectShelve={this.moveShelve}/>)} 
+          render={() => (<BookShelve books={this.state.books} shelves={this.state.shelves} onSelectShelve={this.moveShelf}/>)} 
         />
 
         <Route 
           path='/search'
-          component={ BookSearch }/>
+          render={() => (<BookSearch
+                          onSelectShelve={this.moveShelf}/>) }/>
       </div>
     )
   }
