@@ -16,7 +16,6 @@ class BooksApp extends React.Component {
   }
 
   moveShelf = (book, value) => {
-    console.log("Changing shelf")
     const privateBooks = this.state.books
     const index = privateBooks.findIndex(x => x.title === book.title);
 
@@ -31,7 +30,6 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
-    console.log("Fentching private books")
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
