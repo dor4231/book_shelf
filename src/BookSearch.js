@@ -10,7 +10,9 @@ class BookSearch extends Component {
     }
 
     isBookAlreadyOnAShelf = (searchBook) => {
+        console.log("Check if book on the shelf")
         const book = this.props.books.filter((shelfBook) => (shelfBook.id === searchBook.id))
+        console.log(book)
         if (book.length === 1) {
             return book[0].shelf
         } else {
@@ -19,6 +21,7 @@ class BookSearch extends Component {
     }
 
     searchInAPI = (query) => {
+        console.log("Send search query")
         if (query === '') {
             this.setState({ books: [] })
         } else {
@@ -38,6 +41,7 @@ class BookSearch extends Component {
     }
 
     render() {
+        console.log("Rendring BookSearch!")
         return (
             <div className="search-books">
               <div className="search-books-bar">
@@ -59,7 +63,7 @@ class BookSearch extends Component {
                                         <div className="book-shelf-changer">
                                             <select 
                                             value={(this.isBookAlreadyOnAShelf(book) || 'none')}
-                                            onChange={(e) => {this.props.onSelectShelve(book, e.target.value); this.render()}}>
+                                            onChange={(e) => {this.props.onSelectShelve(book, e.target.value); }}>
                                             <option value="move" disabled>Move to...</option>
                                             <option value="currentlyReading">Currently Reading</option>
                                             <option value="wantToRead">Want to Read</option>
