@@ -16,20 +16,22 @@ class BooksApp extends React.Component {
   }
 
   moveShelf = (book, value) => {
-    const books = this.state.books
-    const index = books.findIndex(x => x.title === book.title);
+    console.log("Changing shelf")
+    const privateBooks = this.state.books
+    const index = privateBooks.findIndex(x => x.title === book.title);
 
     if (index !== -1)
-      books[index].shelf = value;
-    else {
-      books.push(book)
-    }
+      privateBooks[index].shelf = value;
 
     BooksAPI.update(book, value)
-    this.setState({ books })
+
+    BooksAPI.getAll().then((books) => {
+      this.setState({ books })
+    })
   }
 
   componentDidMount() {
+    console.log("Fentching private books")
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
@@ -40,7 +42,10 @@ class BooksApp extends React.Component {
       <div className="app">
         <Route
           exact path="/"
-          render={() => (<BookShelve books={this.state.books} shelves={this.state.shelves} onSelectShelve={this.moveShelf}/>)} 
+          render={() => (<BookShelve 
+                            books={this.state.books}
+                            shelves={this.state.shelves}
+                            onSelectShelve={this.moveShelf}/>)}
         />
 
         <Route 
