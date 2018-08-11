@@ -10,9 +10,7 @@ class BookSearch extends Component {
     }
 
     isBookAlreadyOnAShelf = (searchBook) => {
-        console.log("Check if book on the shelf")
         const book = this.props.books.filter((shelfBook) => (shelfBook.id === searchBook.id))
-        console.log(book)
         if (book.length === 1) {
             return book[0].shelf
         } else {
@@ -21,11 +19,9 @@ class BookSearch extends Component {
     }
 
     searchInAPI = (query) => {
-        console.log("Send search query")
         if (query === '') {
             this.setState({ books: [] })
         } else {
-            console.log(escapeRegExp(query))
             BooksAPI.search(escapeRegExp(query).trim()).then((books) => {
                 if (books.error) {
                     this.setState({ books: [] })
@@ -41,7 +37,6 @@ class BookSearch extends Component {
     }
 
     render() {
-        console.log("Rendring BookSearch!")
         return (
             <div className="search-books">
               <div className="search-books-bar">
@@ -80,7 +75,7 @@ class BookSearch extends Component {
                 </ol>
               </div>
             </div>
-          )
+        )
     }
 }
 
