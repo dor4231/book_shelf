@@ -6,7 +6,8 @@ import * as BooksAPI from './BooksAPI'
 
 class BookSearch extends Component {
     state = {
-        books: []
+        books: [],
+        query: ''
     }
 
     isBookAlreadyOnAShelf = (searchBook) => {
@@ -19,21 +20,19 @@ class BookSearch extends Component {
     }
 
     searchInAPI = (query) => {
-        if (query === '') {
-            this.setState({ books: [] })
-        } else {
-            BooksAPI.search(escapeRegExp(query).trim()).then((books) => {
-                if (books.error) {
-                    this.setState({ books: [] })
-                }else if (books) {
-                    this.setState({ books })
-                } else {
-                    this.setState({ books: [] })
-                }
-            }).catch(
-                this.setState({ books: []})
-            )
-        }
+        this.setState({ query , books: []})
+        console.log(this.state)
+        BooksAPI.search(escapeRegExp(query).trim()).then((books) => {
+            if (this.state.query === '') {
+                this.setState({ books: [] })
+            }else if ('error' in books) {
+                this.setState({ books: [] })
+            } else {
+                this.setState({ books })
+            }
+        }).catch(
+            this.setState({ books: []})
+        )
     }
 
     render() {
